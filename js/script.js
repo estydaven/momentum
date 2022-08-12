@@ -32,7 +32,7 @@ function getTimeOfDay() {
         return 'morning';
     }
     if (hours > 11 && hours <= 17) {
-        return 'day';
+        return 'afternoon';
     }
     if (hours > 17 && hours < 23) {
         return 'evening';
@@ -45,6 +45,7 @@ function showGreeting() {
     const greeting = document.querySelector('.greeting');
     const timeOfDay = getTimeOfDay();
     const greetingText = `Good ${timeOfDay}, `;
+
     return greeting.textContent = greetingText;
 }
 
@@ -65,8 +66,6 @@ function getLocalStorage() {
 window.addEventListener('load', getLocalStorage);
 
 // IMAGE SLIDER
-const body = document.body;
-body.style.backgroundImage = "url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/evening/18.jpg')";
 
 function getRandomNum(min, max) {
     min = Math.ceil(min);
@@ -76,5 +75,8 @@ function getRandomNum(min, max) {
 
 function setBg() {
     const timeOfDay = getTimeOfDay();
-    const bgNum = getRandomNum(0, 20);
+    const bgNum = getRandomNum(0, 20).toString().padStart(2, '0');
+    const body = document.body;
+    body.style.backgroundImage = `url('https://raw.githubusercontent.com/Nadyahopeeeee/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg')`;
 }
+setBg();
