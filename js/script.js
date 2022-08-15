@@ -75,8 +75,40 @@ function getRandomNum(min, max) {
 
 function setBg() {
     const timeOfDay = getTimeOfDay();
-    const bgNum = getRandomNum(0, 20).toString().padStart(2, '0');
+    const bgNum = getRandomNum(1, 20).toString().padStart(2, '0');
     const body = document.body;
-    body.style.backgroundImage = `url('https://raw.githubusercontent.com/Nadyahopeeeee/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg')`;
+    const img = new Image;
+    img.src = `https://raw.githubusercontent.com/Nadyahopeeeee/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
+    img.onload = () => {
+        body.style.backgroundImage = `url('https://raw.githubusercontent.com/Nadyahopeeeee/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg')`;
+    }    
 }
 setBg();
+
+let randomNum = getRandomNum(1, 20);
+
+function getSlidePrev() {
+    if (randomNum >= 1) {
+        randomNum = 20;
+    } else {
+        randomNum--;
+    }
+
+    setBg();
+}
+
+function getSlideNext() {
+    if (randomNum >= 20) {
+        randomNum = 1;
+    } else {
+        randomNum++;
+    }
+
+    setBg();
+}
+
+const slideNext = document.querySelector('.slide-next');
+const slidePrev = document.querySelector('.slide-prev');
+
+slideNext.addEventListener('click', getSlideNext);
+slidePrev.addEventListener('click', getSlidePrev);
