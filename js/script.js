@@ -49,22 +49,6 @@ function showGreeting() {
     return greeting.textContent = greetingText;
 }
 
-// SET&GET USER NAME IN LOCAL STORAGE
-
-const userName = document.querySelector('.name');
-
-function setLocalStorage() {
-    localStorage.setItem('name', userName.value);
-}
-window.addEventListener('beforeunload', setLocalStorage);
-
-function getLocalStorage() {
-    if (localStorage.getItem('name')) {
-        userName.value = localStorage.getItem('name');
-    }
-}
-window.addEventListener('load', getLocalStorage);
-
 // IMAGE SLIDER
 
 function getRandomNum(min, max) {
@@ -144,3 +128,23 @@ function setCity(e) {
 
 document.addEventListener('DOMContentLoaded', getWeather);
 city.addEventListener('keypress', setCity);
+
+// SET&GET USER NAME AND CITY IN LOCAL STORAGE
+
+const userName = document.querySelector('.name');
+
+function setLocalStorage() {
+    localStorage.setItem('name', userName.value);
+    localStorage.setItem('city', city.textContent);
+}
+window.addEventListener('beforeunload', setLocalStorage);
+
+function getLocalStorage() {
+    if (localStorage.getItem('name')) {
+        userName.value = localStorage.getItem('name');
+    }
+    if (localStorage.getItem('city')) {
+        city.textContent = localStorage.getItem('city');
+    }
+}
+window.addEventListener('load', getLocalStorage);
