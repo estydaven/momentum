@@ -100,23 +100,34 @@ slidePrev.addEventListener('click', getSlidePrev);
 // WEATHER APP
 
 const weatherIcon = document.querySelector('.weather-icon');
+const weatherInfo = document.querySelector('.weather-info');
 const temperature = document.querySelector('.temperature');
 const weatherDescription = document.querySelector('.weather-description');
 const city = document.querySelector('.city');
 const wind = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
+const weatherError = document.querySelector('.weather-error');
 
 async function getWeather() {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&lang=en&appid=d574043e56d6f81580ec278320a0205f&units=metric`;
     const res = await fetch(url);
     const data = await res.json();
     
-    weatherIcon.className = 'weather-icon owf';
-    weatherIcon.classList.add(`owf-${data.weather[0].id}`);
-    temperature.textContent = `${data.main.temp.toFixed(0)}°C`;
-    weatherDescription.textContent = data.weather[0].description;
-    wind.textContent = `${data.wind.speed.toFixed(0)} m/s`;
-    humidity.textContent = `${data.main.humidity.toFixed()}%`;
+    try {        
+        weatherIcon.className = 'weather-icon owf';
+        weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+        temperature.textContent = `${data.main.temp.toFixed(0)}°C`;
+        weatherDescription.textContent = data.weather[0].description;
+        wind.textContent = `${data.wind.speed.toFixed(0)} m/s`;
+        humidity.textContent = `${data.main.humidity.toFixed()}%`;
+        weatherError.style.display = 'none';
+        weatherInfo.style.display = 'flex';
+    } catch (error) {
+        console.log(error);
+        weatherError.textContent = `Error! City not found for ${city.textContent}`;
+        weatherError.style.display = 'block';
+        weatherInfo.style.display = 'none';
+    }
 }
 
 function setCity(e) {
