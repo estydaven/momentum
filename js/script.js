@@ -25,16 +25,16 @@ function getTimeOfDay() {
     const date = new Date;
     const hours = date.getHours();
     
-    if (hours == 23 && hours == 0 && hours <= 5) {
+    if (hours == 0 && hours <= 5.59) {
         return 'night';        
     }
-    if (hours > 5 && hours <= 11) {
+    if (hours > 5 && hours <= 11.59) {
         return 'morning';
     }
-    if (hours > 11 && hours <= 17) {
+    if (hours >= 12 && hours <= 17.59) {
         return 'afternoon';
     }
-    if (hours > 17 && hours < 23) {
+    if (hours >= 17 && hours < 23.59) {
         return 'evening';
     }
 }
@@ -57,9 +57,11 @@ function getRandomNum(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+let randomNum = getRandomNum(1, 20);
+
 function setBg() {
     const timeOfDay = getTimeOfDay();
-    const bgNum = getRandomNum(1, 20).toString().padStart(2, '0');
+    const bgNum = String(randomNum).padStart(2, '0');
     const body = document.body;
     const img = new Image;
     img.src = `https://raw.githubusercontent.com/Nadyahopeeeee/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
@@ -69,23 +71,21 @@ function setBg() {
 }
 setBg();
 
-let randomNum = getRandomNum(1, 20);
-
 function getSlidePrev() {
-    if (randomNum >= 1) {
-        randomNum = 20;
-    } else {
+    if (randomNum !== 1) {
         randomNum--;
+    } else {
+        randomNum = 20;
     }
 
     setBg();
 }
 
 function getSlideNext() {
-    if (randomNum >= 20) {
-        randomNum = 1;
-    } else {
+    if (randomNum !== 20) {
         randomNum++;
+    } else {
+        randomNum = 1;
     }
 
     setBg();
@@ -115,8 +115,8 @@ async function getWeather() {
     weatherIcon.classList.add(`owf-${data.weather[0].id}`);
     temperature.textContent = `${data.main.temp.toFixed(0)}°C`;
     weatherDescription.textContent = data.weather[0].description;
-    wind.textContent = `${data.wind.speed} m/s`;
-    humidity.textContent = `${data.main.humidity}%`;
+    wind.textContent = `${data.wind.speed.toFixed(0)} m/s`;
+    humidity.textContent = `${data.main.humidity.toFixed()}%`;
 }
 
 function setCity(e) {
@@ -140,10 +140,8 @@ function setLocalStorage() {
 window.addEventListener('beforeunload', setLocalStorage);
 
 function getLocalStorage() {
-    if (localStorage.getItem('name')) {
+    if (localStorage.getItem('name') || localStorage.getItem('city')) {
         userName.value = localStorage.getItem('name');
-    }
-    if (localStorage.getItem('city')) {
         city.textContent = localStorage.getItem('city');
     }
 }
