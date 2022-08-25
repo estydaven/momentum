@@ -34,7 +34,7 @@ function getTimeOfDay() {
     if (hours >= 12 && hours <= 17.59) {
         return 'afternoon';
     }
-    if (hours >= 17 && hours < 23.59) {
+    if (hours >= 18 && hours < 23.59) {
         return 'evening';
     }
 }
@@ -138,6 +138,7 @@ function setCity(e) {
 }
 
 document.addEventListener('DOMContentLoaded', getWeather);
+setInterval(getWeather, 10000);
 city.addEventListener('keypress', setCity);
 
 // SET&GET USER NAME AND CITY IN LOCAL STORAGE
@@ -157,3 +158,22 @@ function getLocalStorage() {
     }
 }
 window.addEventListener('load', getLocalStorage);
+
+// Quotes
+
+const quote = document.querySelector('.quote');
+const author = document.querySelector('.author');
+const quoteButton = document.querySelector('.change-quote'); 
+
+async function getQuotes() {
+    let randomQuote = getRandomNum(0, 99);    
+    const quotes = 'js/quotes.json';
+    const res = await fetch(quotes);
+    const data = await res.json();
+
+    quote.textContent = `"${data[randomQuote].text}"`;
+    author.textContent = data[randomQuote].author;
+}
+
+quoteButton.addEventListener('click', getQuotes);
+getQuotes();
